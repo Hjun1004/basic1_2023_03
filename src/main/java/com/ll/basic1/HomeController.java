@@ -1,5 +1,9 @@
 package com.ll.basic1;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.*;
 
 @Controller // 개발자가 스프링부트에게 말한다.  HomeController는 컨트롤러이다.
@@ -64,6 +69,45 @@ public class HomeController { // 컨트롤러는 점원이다 고객의 요청�
     @ResponseBody
     public int showIncrese(){ // 리턴되는 int 값은 String화 되어서 고객에게 전달한다.(스프링부트가 알아서 String으로 바꿔준다.)
         return increase++; //계속 새로고침을 해서 증가된 increase가 보여지겠지만 int 자료형 범위 내 숫자까지만 올라간다.
+    }
+
+    // 이 함수와 아래 showReqAndRespV2 함수는 똑같이 작동한다.
+    @GetMapping("/home/reqAndResp")
+    //@ResponseBody 의 의미
+    // 아래 메서드를 실행한 후 그 리턴값을 응답으로 삼아줘
+    @ResponseBody
+    public void showReqAndResp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int age = Integer.parseInt(req.getParameter("age"));
+        resp.getWriter().append("Hello, you are %d years old.".formatted(age));
+    }
+
+    // 이 방식이 가능한 이유는 스프링부트가 배후에서 처리를 해주기 때문이다.(이 방식이 코딩하기 더 편하다.)
+    @GetMapping("/home/reqAndRespV2")
+    @ResponseBody
+    public String showReqAndRespV2(int age) {
+        return "Hello, you are %d years old.".formatted(age);
+    }
+
+    @GetMapping("/home/cookie/increase")
+    //@ResponseBody 의 의미
+    // 아래 메서드를 실행한 후 그 리턴값을 응답으로 삼아줘
+    @ResponseBody
+    public int showCookieIncrease(HttpServletRequest req, HttpServletResponse resp) throws IOException{
+        int countInCookie = 0;
+
+        if(req.getCookies() != null){
+            countInCookie = Arrays.stream(req.getCookies())
+                    .filter(cookie -> cookie.getName().equals("count"))
+                    .map(cookie -> cookie.getValue())
+                    .mapToInt(cookie -> Integer.parseInt(cookie))
+                    .findFirst()
+                    .orElse(0);
+        }
+
+        int newCountInCookie = countInCookie + 1;
+        resp.addCookie(new Cookie("count", newCountInCookie + ""));
+
+        return newCountInCookie;
     }
 
     @GetMapping("/home/plus")
