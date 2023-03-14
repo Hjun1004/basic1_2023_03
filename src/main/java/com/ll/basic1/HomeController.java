@@ -17,4 +17,24 @@ public class HomeController {
     public String showMain(){
         return "안녕하세요.";
     }
+
+    @GetMapping("/home/main2")
+
+    //@ResponseBody 의 의미
+    // 아래 메서드를 실행한 후 그 리턴값을 응답으로 삼아줘
+    @ResponseBody
+    public String showMain2(){
+        return "반갑습니다.";
+    }
+
+    @GetMapping("/home/main3")
+
+    //@ResponseBody 의 의미
+    // 아래 메서드를 실행한 후 그 리턴값을 응답으로 삼아줘
+    @ResponseBody
+    public String showMain3(){
+        return "즐거웠습니다.";
+    }
+
+
 }
