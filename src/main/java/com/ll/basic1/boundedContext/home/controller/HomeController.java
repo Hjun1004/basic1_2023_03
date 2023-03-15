@@ -1,7 +1,6 @@
-package com.ll.basic1;
+package com.ll.basic1.boundedContext.home.controller;
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -108,6 +107,28 @@ public class HomeController { // 컨트롤러는 점원이다 고객의 요청�
         resp.addCookie(new Cookie("count", newCountInCookie + ""));
 
         return newCountInCookie;
+    }
+
+    @GetMapping("/home/cookie/increase2")
+    //@ResponseBody 의 의미
+    // 아래 메서드를 실행한 후 그 리턴값을 응답으로 삼아줘
+    @ResponseBody
+    public int showCookieIncrease2_self(HttpServletRequest req, HttpServletResponse resp){
+        int countInCookie = 0;
+
+        if(req.getCookies() != null){
+            countInCookie = Arrays.stream(req.getCookies())
+                    .filter(cookie -> cookie.equals("count"))
+                    .map(cookie -> cookie.getValue())
+                    .mapToInt(cookie -> Integer.parseInt(cookie))
+                    .findFirst()
+                    .orElse(0);
+        }
+
+        int newCountInCookie = countInCookie +1;
+        resp.addCookie(new Cookie("count",  newCountInCookie + ""));
+
+        return  newCountInCookie;
     }
 
     @GetMapping("/home/plus")
@@ -361,7 +382,9 @@ public class HomeController { // 컨트롤러는 점원이다 고객의 요청�
     }
 
 
+
 }
+
 
 @AllArgsConstructor
 @Getter
