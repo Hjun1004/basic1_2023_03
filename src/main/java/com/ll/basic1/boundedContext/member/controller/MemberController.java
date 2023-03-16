@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -69,18 +70,29 @@ public class MemberController {
     }
 
     @GetMapping("/member/me")
-    @ResponseBody
-    public RsData showMe(){
-        long loginedMemberId = rq.getSessionAsLong("loginedMemberId", 0);
+    public String showMe(Model model){
+        long loginedMemberId = rq.getLoginedMemberId();
 
-        if(loginedMemberId == 0){
-            return RsData.of("F-1", "로그인 후 이용해주세요.");
-        }
+        Member member = memberService.findById(loginedMemberId);
 
-        Member members = memberService.findById(loginedMemberId);
+        model.addAttribute("member", member);
 
-        return RsData.of("S-1", "당신의 username은 %s 입니다.".formatted(members.getUsername()));
-    }
+        return "usr/member/me";
+       }
+
+//    @GetMapping("/member/me")
+//    @ResponseBody
+//    public RsData showMe(){
+//        long loginedMemberId = rq.getSessionAsLong("loginedMemberId", 0);
+//
+//        if(loginedMemberId == 0){
+//            return RsData.of("F-1", "로그인 후 이용해주세요.");
+//        }
+//
+//        Member members = memberService.findById(loginedMemberId);
+//
+//        return RsData.of("S-1", "당신의 username은 %s 입니다.".formatted(members.getUsername()));
+//    }
 
     @GetMapping("/member/logout2")
     @ResponseBody

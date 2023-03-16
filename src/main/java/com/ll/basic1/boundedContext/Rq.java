@@ -134,6 +134,10 @@ public class Rq {
         return !isLogined();
     }
 
+    public long getLoginedMemberId(){
+        return getSessionAsLong("loginedMemberId",0);
+    }
+
     // 디버깅용 함수
 //    public String getSessionDebugContents() {
 //        HttpSession session = req.getSession();
