@@ -21,28 +21,23 @@ public class MemberController {
     //int memberId = 0;
     private MemberService memberService;
     private Rq rq;
+    // Rq rq를 Constructor로 만들어 줌
+    // Rq클래스에서 RequestScope를 붙임으로써 밑의 메서드들에서 매개변수로 req 와 resp를 넘겨줄 필요가 없다.
+    // 자동으로 처리가 된다. 또한 RequestScope때문에 MemberService와 생명주기가 같아지지 않고
+    // Request요청이 있을 때마다 만들어지고 삭제된다.
 
 //    public MemberController(MemberService memberService){
 //        this.memberService = memberService;
 //    }
 
-    @GetMapping("/member/login")
-    @ResponseBody
-    public String showLogin(){
-        if(rq.isLogined()){
-            return """
-                    <h1>이미 로그인 되었습니다.<h1>
-                    """.stripIndent();
-        }
 
-        return """
-                <h1>로그인</h1>
-                <form method="GET" action="/member/doLogin" target="_blank">
-                <input type="text" name="username" placeholder="아이디">
-                <input type="text" name="password" placeholder="비밀번호">
-                <input type="submit" value="로그인">
-                </form>
-                """.stripIndent();
+    // 로그인 구현 입력시 doLogin사이트로 넘어가서 결과를 보여준다.
+    @GetMapping("/member/login")
+    public String showLogin(){
+        return "usr/member/login.html";
+        // 이렇게 html파일의 경로를 불러올때엔 @ResponseBody를 붙이지 않는다.
+
+
         //순서대로 /member/doLogin 후 ?가 붙는다.
         // 그 후 username = 입력받는 아이디 입력하면 자동으로 &이 붙는다.
         // 그리고 password = 입력받는 비밀번호
