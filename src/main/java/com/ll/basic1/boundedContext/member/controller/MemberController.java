@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Arrays;
@@ -46,7 +47,7 @@ public class MemberController {
     }
 
 
-    @GetMapping("/member/doLogin")
+    @PostMapping("/member/login")
     @ResponseBody
     public RsData login(String username, String password){
         if ( username == null || username.trim().length() == 0 ) {
