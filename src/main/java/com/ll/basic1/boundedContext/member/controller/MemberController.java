@@ -37,8 +37,8 @@ public class MemberController {
         RsData rsData = memberService.tryLogin(username, password);
 
         if( rsData.isSuccess()){
-            long memberId = (long)rsData.getData();
-            rq.setCookie("loginedMemberId", memberId);
+            Member member = (Member)rsData.getData();
+            rq.setCookie("loginedMemberId", member.getId());
         }
 
         return rsData;
