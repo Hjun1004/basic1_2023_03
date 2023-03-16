@@ -1,5 +1,6 @@
 package com.ll.basic1.boundedContext.home.controller;
 
+import com.ll.basic1.boundedContext.member.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,13 +21,16 @@ public class HomeController { // 컨트롤러는 점원이다 고객의 요청�
     // 컨트롤러는 프로그램이 실행될때 생성되고 종료될때까지 꺼지지 않는다.
     private int increase;
     People people;
-    List<People> al;
+    private final List<People> al;
     int id = 0;
     int ch = 0;
+    private final MemberService memberService;
 
-    public HomeController(){
+    public HomeController(MemberService memberService){
         this.increase = 0;
         al = new ArrayList<>();
+
+        this.memberService = memberService;
     }
 
     // @GetMapping("/home/main")

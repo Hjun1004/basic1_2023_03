@@ -11,9 +11,9 @@ import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.Arrays;
 
-@AllArgsConstructor
-@RequestScope // 이 객체는 매 요청마다 새성된다.
 @Component
+@RequestScope// 이 객체는 매 요청마다 새성된다.
+@AllArgsConstructor
 public class Rq {
     private final HttpServletRequest req;
     private final HttpServletResponse resp;
@@ -22,9 +22,9 @@ public class Rq {
 //        this.req = req;
 //        this.resp = resp;
 //    }
-    public void setCookie(Object name, Object value){
-        resp.addCookie(new Cookie(name + "", value + ""));
-    }
+//    public void setCookie(Object name, Object value){
+//        resp.addCookie(new Cookie(name + "", value + ""));
+//    }
 
     public boolean removeCookie(Object name){
         boolean isRemoved = false;
