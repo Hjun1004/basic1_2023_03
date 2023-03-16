@@ -18,8 +18,8 @@ import java.util.Arrays;
 @Controller
 @AllArgsConstructor
 public class MemberController {
-    int memberId = 0;
-    MemberService memberService;
+    //int memberId = 0;
+    private MemberService memberService;
     private Rq rq;
 
 //    public MemberController(MemberService memberService){
